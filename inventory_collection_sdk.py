@@ -41,7 +41,7 @@ def main():
                             verify=False)
 
     # get the device count
-    response = dnac_api.devices.TBDt()
+    response = dnac_api.devices.TBD()
     device_count = response['response']
     logging.info('Number of devices managed by Cisco DNA Center: ' + str(device_count))
 
