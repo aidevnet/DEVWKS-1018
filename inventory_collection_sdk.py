@@ -10,9 +10,9 @@ import yaml
 from datetime import datetime
 from dnacentersdk import DNACenterAPI
 
-DNAC_URL = "TBD"
-DNAC_USER = "TBD"
-DNAC_PASS = "TBD"
+DNAC_URL = "https://sandboxdnac2.cisco.com"
+DNAC_USER = "devnetuser"
+DNAC_PASS = "Cisco123!"
 
 os.environ['TZ'] = 'America/Los_Angeles'  # define the timezone for CET
 time.tzset()  # adjust the timezone, more info https://help.pythonanywhere.com/pages/SettingTheTimezone/
@@ -41,7 +41,7 @@ def main():
                             verify=False)
 
     # get the device count
-    response = dnac_api.devices.TBD()
+    response = dnac_api.devices.get_device_count()
     device_count = response['response']
     logging.info('Number of devices managed by Cisco DNA Center: ' + str(device_count))
 
@@ -50,7 +50,7 @@ def main():
     limit = 500
     device_list = []
     while offset <= device_count:
-        response = dnac_api.devices.TBD(offset=offset)
+        response = dnac_api.devices.get_device_list(offset=offset)
         offset += limit
         device_list.extend(response['response'])
     logging.info('Collected the device list from Cisco DNA Center')
@@ -70,7 +70,7 @@ def main():
             device_details.update({'role': device['role']})
 
             # get the device site hierarchy
-            response = dnac_api.devices.TBD(identifier='uuid', search_by=device['id'])
+            response = dnac_api.devices.get_device_detail(identifier='uuid', search_by=device['id'])
             site = response['response']['location']
             device_details.update({'site': site})
 
@@ -88,7 +88,7 @@ def main():
             device_details.update({'role': device['role']})
 
             # get the device site hierarchy
-            response = dnac_api.devices.TBD(identifier='uuid', search_by=device['id'])
+            response = dnac_api.devices.get_device_detail(identifier='uuid', search_by=device['id'])
             site = response['response']['location']
             device_details.update({'site': site})
 
@@ -120,7 +120,7 @@ def main():
 
     # retrieve the device image compliance state
     image_non_compliant_devices = []
-    response = dnac_api.compliance.TBD(compliance_type='IMAGE', compliance_status='NON_COMPLIANT')
+    response = dnac_api.compliance.get_compliance_detail(compliance_type='IMAGE', compliance_status='NON_COMPLIANT')
     image_non_compliant_list = response['response']
     for device in image_non_compliant_list:
         device_id = device['deviceUuid']
