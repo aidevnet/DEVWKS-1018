@@ -14,7 +14,7 @@ DNAC_URL = "TBD"
 DNAC_USER = "TBD"
 DNAC_PASS = "TBD"
 
-os.environ['TZ'] = 'America/Los_Angeles'  # define the timezone for CET
+os.environ['TZ'] = 'Australia/Melbourne'  # define the timezone for CET
 time.tzset()  # adjust the timezone, more info https://help.pythonanywhere.com/pages/SettingTheTimezone/
 
 def main():
